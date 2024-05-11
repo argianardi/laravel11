@@ -19,4 +19,7 @@ Route::controller(TablecrudController::class)->group(function () {
     Route::post('post-action', 'create')->name('post-action');
 
     Route::get('edit-send', 'edit')->name('edit-send');
+    Route::put('edit-action', 'update')->name('edit-action');
+
+    Route::post('delete', 'destroy')->name('delete');
 });
