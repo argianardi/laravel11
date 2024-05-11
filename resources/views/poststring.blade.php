@@ -34,12 +34,34 @@
                             {{ $a['charLeng'] }}
                         </td>
                         <td class="px-6 py-4">
-                            <a href={{ route('edit-action', ['id' => $a['id']]) }}>Edit</a>
-                            <a href="">Delete</a>
+
+                            <a href={{ route('edit-send', ['id' => $a['id']]) }}>Edit</a>
+                            <button type="button" url="{{ route('delete', ['id' => $a['id']]) }}"
+                                onclick="deleteData({{ $a['id'] }})">Delete</button>
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
+
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        })
+
+        function deleteData(id) {
+
+            $.post("{{ route('delete') }}", {
+                _token: "{{ csrf_token() }}",
+                type: 'delete',
+                id: id,
+            }).done(function() {
+                alert('data deleted');
+                window.location.reload();
+            })
+        }
+    </script>
 @endsection
