@@ -3,7 +3,9 @@
 @section('content')
     <h1 class="text-2xl mt-10 mx-auto  w-[500px] text-center">Form String</h1>
     <form action="{{ route('edit-action') }}" method="post" class="mt-8  w-[500px] mx-auto">
+        @method('PUT')
         @csrf
+        <input type="hidden" name="id" value="{{ $qa['id'] }}">
         <input type="text" name="title" id="title" class="border border-gray-300 w-full" value="{{ $qa['title'] }}">
         <input type="number" id="charLeng" name="charLeng" class="border border-gray-300 block mt-2 w-full"
             value="{{ $qa['charLeng'] }}">
