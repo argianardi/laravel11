@@ -59,14 +59,25 @@ class TablecrudController extends Controller
      */
     public function update(Request $request, tablecrud $tablecrud)
     {
-        //
+        $string = tablecrud::find($request->id);
+        $string->update([
+            'title' => $request->title,
+            'charLeng' => $request->charLeng
+        ]);
+        // tablecrud::update([
+        //     'title' => $request->title,
+        //     'charLeng' => $request->charLeng
+        // ]);
+        return $this->index();
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(tablecrud $tablecrud)
+    public function destroy(tablecrud $tablecrud, Request $request)
     {
-        //
+        $string = tablecrud::find($request->id);
+
+        $string->delete();
     }
 }

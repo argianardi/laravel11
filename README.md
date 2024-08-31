@@ -18,3 +18,11 @@ php artisan serve --port 2023 --host 0.0.0.0
 -   menghapus table
     `php artisan migrate:rollback`
 -   Menampilkan data dalam table
+
+# Membuka Project dengan Menampilkan ip config
+
+`php artisan serve --port 2023 --host 0.0.0.0`
+
+# Menjalankan msql database dan apache
+
+`sudo /opt/lampp/lampp start`
