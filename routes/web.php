@@ -23,3 +23,15 @@ Route::controller(TablecrudController::class)->group(function () {
 
     Route::post('delete', 'destroy')->name('delete');
 });
+
+Route::view('/home',  'home');
+Route::get('/about', fn () => view('about'));
+Route::get('/contact', fn () => view('contact'));
+Route::get('/galerry', fn () => view('galerry'));
+Route::get('users', function () {
+    $users = [
+        ['id' => 1, 'name' => 'jhon doe', 'email' => '2aJQz@example.com'],
+        ['id' => 2, 'name' => 'Jane Doe', 'email' => '2sferQz@example.com'],
+    ];
+    return view('users.index', compact('users'));
+});
