@@ -166,7 +166,8 @@ Untuk menjaga struktur kode tetap rapi dan mudah dikelola, kita bisa memecah set
         <a {{ $attributes }} class="block px-3 py-2 text-base font-medium text-white bg-gray-900 rounded-md">{{ $slot }}</a>
         ```
 
-    - Code Component Navbar
+    - Code Component Navbar <br/>
+      Tambahkan component `link` dan `dropdown link`
 
         ```php
         {{-- resources/views/components/navbar/navbar.blade.php --}}
@@ -180,10 +181,12 @@ Untuk menjaga struktur kode tetap rapi dan mudah dikelola, kita bisa memecah set
                         </div>
                         <div class="md:block hidden">
                             <div class="flex items-baseline ml-10 space-x-4">
+                            <!-- -------------------------------------------------------------------------- -->
                                 <x-navbar.link href="/">Home</x-navbar.link>
                                 <x-navbar.link href="/about">About</x-navbar.link>
                                 <x-navbar.link href="/contact">Contact</x-navbar.link>
                                 <x-navbar.link href="/galerry">Gallery</x-navbar.link>
+                            <!-- -------------------------------------------------------------------------- -->
                             </div>
                         </div>
                     </div>
@@ -204,14 +207,22 @@ Untuk menjaga struktur kode tetap rapi dan mudah dikelola, kita bisa memecah set
 
             <div class="md:hidden" id="mobile-menu">
                 <div class="sm:px-3 px-2 pt-2 pb-3 space-y-1">
+                    <!-- -------------------------------------------------------------------------- -->
                     <x-navbar.dropdown-link href="/">Home</x-navbar.dropdown-link>
                     <x-navbar.dropdown-link href="/about">About</x-navbar.dropdown-link>
                     <x-navbar.dropdown-link href="/contact">Contact</x-navbar.dropdown-link>
                     <x-navbar.dropdown-link href="/galerry">Gallery</x-navbar.dropdown-link>
+                    <!-- -------------------------------------------------------------------------- -->
                 </div>
             </div>
         </nav>
         ```
+
+        Dibagian ini kita memanggil component `link` dan `dropdown link` menggunakan sintax blade.
+        `<x-navbar.link href="/">Home</x-navbar.link>`: Ini adalah cara untuk memanggil komponen Blade yang ada di dalam file `resources/views/components/navbar/link.blade.php`.
+
+        - `navbar` merujuk ke nama folder tempat menyimpan component yang dipanggil yaitu `resources/views/components/navbar`
+        - `link` merupakan nama component yang dipanggil yaitu `link.blade.php`.
 
 2. Menggunakan Komponen dalam Layout<br/>
    Setelah komponen dibuat, kita bisa memanggilnya dalam layout utama (`layout.blade.php`) menggunakan sintaks Blade seperti `<x-navbar.navbar />`.
@@ -247,3 +258,31 @@ Untuk menjaga struktur kode tetap rapi dan mudah dikelola, kita bisa memecah set
     </body>
     </html>
     ```
+
+## Membuat Active State untuk Navbar Link
+
+Dalam pengembangan web, sangat penting untuk memberikan indikator visual pada link navigasi yang aktif. Ini membantu user untuk mengetahui halaman mana yang sedang mereka akses. Salah satu cara untuk mengimplementasikan ini adalah dengan membuat active state pada link navbar. Active state secara otomatis mengubah tampilan link di navbar berdasarkan URL yang sedang diakses oleh user. Hal ini tidak hanya membuat tampilan lebih dinamis dan interaktif, tetapi juga memberikan petunjuk visual yang jelas kepada user tentang halaman yang sedang mereka kunjungi[ref](https://www.youtube.com/watch?v=_PTxDnSG6rY&list=PLRKMmwY3-5MyxehZjs_S_KBvI3pnPk0mi&index=4). Berikut adalah contoh kode untuk membuat active state pada link navbar menggunakan Laravel Blade:
+
+```php
+{{-- resources/views/components/navbar/link.blade.php --}}
+<a {{ $attributes }}
+    class="{{ request()->fullUrlIs(url($href)) ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }} px-3 py-2 text-sm font-medium rounded-md">
+    {{ $slot }}
+</a>
+```
+
+Berikut penjelasannya:
+
+-   `{{ $attributes }}`<br/>
+    Untuk menggabungkan atribut HTML tambahan yang mungkin ditambahkan dari tempat komponen ini dipanggil.
+
+-   Kondisi `request()->fullUrlIs(url($href))`<br/>
+    `request()->fullUrlIs(url($href))` adalah kondisi yang digunakan untuk mengecek apakah URL saat ini cocok dengan URL dari link yang sedang dirender (sedang diakses oleh user).
+
+    -   `request()`<br/> Ini adalah helper function di Laravel yang mengembalikan instance dari objek request saat ini. Objek request ini berisi informasi tentang permintaan HTTP yang sedang diproses oleh server, termasuk URL, metode, header, dan data lainnya.
+    -   `fullUrlIs($pattern)`<br/> Metode `fullUrlIs()` adalah bagian dari objek request yang digunakan untuk memeriksa apakah URL penuh (termasuk skema, domain, jalur, dan query string) cocok dengan pola yang diberikan. Parameter $pattern adalah pola yang ingin Anda cocokkan dengan URL saat ini.
+    -   `url($href)` digunakan untuk mendapatkan URL penuh dari href yang telah ditambahkan dari tempat komponen ini dipanggil.
+
+-   Penggunaan Kondisi Ternary<br/>
+    Kondisi ini menggunakan operator ternary untuk menentukan kelas CSS yang akan diterapkan Jika kondisi request()->fullUrlIs(url($href)) bernilai true, maka kelas `bg-gray-900 text-white` akan diterapkan
+    Jika kondisi bernilai false, maka kelas `text-gray-300 hover:bg-gray-700 hover:text-white` yang diterapkan.
