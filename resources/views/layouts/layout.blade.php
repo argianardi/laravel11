@@ -1,21 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="h-full bg-gray-100">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>@yield('title', 'Laravel 11')</title>
 </head>
 
-<body>
-    <nav>
-        <a href="{{ url('/') }}">Home</a>
-        <a href="{{ url('/about') }}">About</a>
-        <a href="{{ url('/contact') }}">Contact</a>
-    </nav>
-    <div class="container">
-        @yield('content')
+<body class="h-full">
+    <div class="min-h-full">
+        <x-navbar.navbar />
+        @hasSection('heading')
+            <header class="bg-white shadow">
+                <div class="max-w-7xl sm:px-6 lg:px-8 px-4 py-6 mx-auto">
+                    <h1 class=" text-3xl font-bold tracking-tight text-red-900">@yield('heading')</h1>
+                </div>
+            </header>
+        @endif
+
+        <main>
+            <div class="max-w-7xl sm:px-6 lg:px-8 px-4 py-6 mx-auto">
+                @yield('content')
+            </div>
+        </main>
     </div>
+
 </body>
 
 </html>
